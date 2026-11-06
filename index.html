@@ -8,7 +8,13 @@ async function census(year,zip,key,stateFips){
   const u=new URL(`https://api.census.gov/data/${year}/acs/acs5`);
   u.searchParams.set('get',vars.join(','));
   u.searchParams.set('for',`zip code tabulation area:${zip}`);
-   if(year===2019 && stateFips)u.searchParams.set('in',`state:${stateFips}`);
+   if (year === 2019) {
+  if (zip.startsWith('06')) {
+    u.searchParams.set('in', 'state:09');
+  } else if (stateFips) {
+    u.searchParams.set('in', `state:${stateFips}`);
+  }
+}
   
   if(key)u.searchParams.set('key',key);
   let r;
